@@ -23,22 +23,25 @@ const NewsItem = ({key,title,imageUrl,description,newsUrl,author,date,source}) =
        <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <a href={newsUrl}>
-        <CardMedia
+        {/* <CardMedia
           component="img"
           height="140"
           image={imageUrl}
           alt="green iguana"
-        />
+        /> */}
         <CardContent className='dark:bg-gray-900'>
+        <div className='flex items-center justify-between w-full mx-auto mt-4 text-gray-400 dark:text-gray-600'>
+            <p>{source}</p>
+            <img class="w-10 h-10 rounded-full" src={imageUrl} alt="Rounded avatar"/>
+          </div>
           <Typography gutterBottom variant="h6" component="div" color="primary">
-            {title.split("").slice(0,100).join("")}
+            {title.split("").slice(0,50).join("")}...
           </Typography>
           <Typography variant="body2" color="secondary">
-           {description}
+           {description.split("").slice(0,150).join("")}...
           </Typography>
-          <div className='flex items-center justify-between w-full mx-auto mt-4 text-gray-400 dark:text-gray-600'>
-            <p>{source}</p>
-            <p>{date.split("").slice(0,10)}</p>
+          <div className='flex items-center justify-start w-full mx-auto mt-4 text-gray-400 dark:text-gray-600'>
+            <p>{date.split("").slice(0,10)} , {date.split("").slice(11,19)} GMT</p>
           </div>
         </CardContent>
         </a>

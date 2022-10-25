@@ -6,26 +6,44 @@ import logo from '../public/Espresso-1.png'
 import '../styles/Home.module.css'
 import NewsItem from '../components/NewsItem'
 import {useTheme} from 'next-themes'
-
+import axios from 'axios'
 import Footer from '../components/Footer'
 import { useRouter } from 'next/router'
 
 export default function Home() { 
+  const axios=require("axios")
   const [articles,setArticles]=useState([])
   const [loading,setLoading]=useState(true)
   const {theme,setTheme}=useTheme()
-  const updateNews=async()=> {  
-    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=044490d459c5491ab681ca7a4b0283b9`
-    setLoading(true)
-    let data = await fetch(url)   
-    let parsedData = await data.json()
-    setArticles(parsedData.articles)
-    setLoading(false)
-  }
-  useEffect(()=>{
-    updateNews();
-   },[])
-
+  // const updateNews=async()=> {  
+  //   const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=044490d459c5491ab681ca7a4b0283b9`
+  //   setLoading(true)
+  //   let data = await fetch(url)   
+  //   let parsedData = await data.json()
+  //   setArticles(parsedData.articles)
+  //   setLoading(false)
+  // }
+  const options = {
+    method: 'GET',
+    url: 'https://bing-news-search1.p.rapidapi.com/news',
+    params: {safeSearch: 'Off', textFormat: 'Raw'},
+    headers: {
+      'X-BingApis-SDK': 'true',
+      'X-RapidAPI-Key': '4c71af7278msh39f46b72048b825p11d8bdjsn89cf675bd909',
+      'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+    setArticles(response.data.value)
+    console.log(articles)
+  }).catch(function (error) {
+    console.error(error);
+  });
+  // useEffect(()=>{
+  //   updateNews();
+  //  },[])
   const router=useRouter();
   const searchInput=useRef(null);
   const search=(e)=>{
@@ -80,10 +98,10 @@ mic
       <h1 className="text-center mt-10 font-semibold text-4xl text-green-600 my-5 mb-10 dark:text-indigo-300">Latest News</h1>
       <div className='flex items-center justify-center w-full'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-5 mx-2'>
-      {articles.map((element) => {
-              return <NewsItem key={element.newsUrl} title={element.title} description={element.description}
-              imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt}
-              source={element.source.name}/>
+      {articles.map((element,index) => {
+              return <NewsItem key={index} title={element.name} description={element.description}
+              imageUrl={element.provider[0].image.thumbnail.contentUrl} newsUrl={element.url} author={element.author} date={element.datePublished}
+              source={element.provider[0].name}/>
             })}
       </div>
       </div>
