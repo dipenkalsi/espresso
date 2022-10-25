@@ -1,5 +1,5 @@
 import React from 'react'
-import PaginationButtons from './paginationButtons'
+import PaginationButtons from './PaginationButtons'
 const SearchResults = ({results}) => {
     console.log(results);
     console.log("from search results babababab")
