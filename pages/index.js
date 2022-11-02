@@ -29,18 +29,18 @@ export default function Home() {
     params: {safeSearch: 'Off', textFormat: 'Raw'},
     headers: {
       'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key': '4c71af7278msh39f46b72048b825p11d8bdjsn89cf675bd909',
+      'X-RapidAPI-Key': '1b0458034emsh5c4974b408ee563p1a1b15jsn692fef7f46f2',
       'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
     }
   };
   
-  axios.request(options).then(function (response) {
+  useEffect(()=>{
+  axios.request(options).then((response)=> {
     console.log(response.data);
     setArticles(response.data.value)
     console.log(articles)
-  }).catch(function (error) {
-    console.error(error);
   });
+},[])
   // useEffect(()=>{
   //   updateNews();
   //  },[])
@@ -98,11 +98,11 @@ mic
       <h1 className="text-center mt-10 font-semibold text-4xl text-green-600 my-5 mb-10 dark:text-indigo-300">Latest News</h1>
       <div className='flex items-center justify-center w-full'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-5 mx-2'>
-      {articles.map((element,index) => {
+      {articles?.map((element,index) => {
               return <NewsItem key={index} title={element.name} description={element.description}
               imageUrl={element.provider[0].image.thumbnail.contentUrl} newsUrl={element.url} author={element.author} date={element.datePublished}
               source={element.provider[0].name}/>
-            })}
+        })}
       </div>
       </div>
       <Footer/>
